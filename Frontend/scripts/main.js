@@ -63,7 +63,7 @@ function createPlayers() {
   }
 }
 
-//creating a card div from card object
+//creating a card div from card object and adds it to parent element
 function createCardDiv(card, parent) {
   const img = document.createElement("img");
   const { suit } = card;
@@ -76,16 +76,16 @@ function createCardDiv(card, parent) {
   } else {
     switch (suit) {
       case "hearts":
-        src = `../images/card-fronts/hearts_${rank}.png`;
+        src = `./images/card-fronts/hearts_${rank}.png`;
         break;
       case "diamonds":
-        src = `../images/card-fronts/diamonds_${rank}.png`;
+        src = `./images/card-fronts/diamonds_${rank}.png`;
         break;
       case "spades":
-        src = `../images/card-fronts/spades_${rank}.png`;
+        src = `./images/card-fronts/spades_${rank}.png`;
         break;
       case "clubs":
-        src = `../images/card-fronts/clubs_${rank}.png`;
+        src = `./images/card-fronts/clubs_${rank}.png`;
         break;
     }
     img.setAttribute("id", `${suit}_${rank}`);
