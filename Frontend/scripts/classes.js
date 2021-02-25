@@ -8,7 +8,8 @@ class Card {
 
 class Deck {
   constructor(cards) {
-    this.cardsArray = cards;
+    this.cards = cards;
+    // this.numberOfCards = cards.length;
   }
   shuffle() {
     for (let i = 0; i < 1000; i++) {
@@ -25,21 +26,21 @@ class Deck {
 class TableDeck extends Deck {
   constructor(cards) {
     super();
-    this.cardsArray = cards;
+    this.cards = cards;
   }
 }
 
 class PlayerDeck extends Deck {
   constructor(cards) {
     super();
-    this.cardsArray = cards;
+    this.cards = cards;
   }
 }
 
 class PileDeck extends Deck {
   constructor(cards, numberOfCards) {
     super();
-    this.cardsArray = cards;
+    this.cards = cards;
   }
 }
 class Player {
