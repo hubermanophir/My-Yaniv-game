@@ -9,7 +9,7 @@ const players = [];
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  createCard(tableDeck.cards.pop());
+  createCardDiv(tableDeck.cards.pop());
   console.log(players);
 });
 
@@ -50,41 +50,33 @@ function createPlayers() {
 
 //creating a card div from card object
 function createCardDiv(card) {
-  const div = document.createElement("div");
+  const img = document.createElement("img");
   const { suit } = card;
   const { rank } = card;
   const { isJoker } = card;
+  let src;
   if (isJoker) {
-    div.innerText = "Joker";
-  } else {
-    div.innerText = suit + rank;
-  }
-  pileDeck.appendChild(div);
-}
-
-function createCard(card) {
-  const div = document.createElement("div");
-  const { suit } = card;
-  const { rank } = card;
-  const { isJoker } = card;
-  let img;
-  if (isJoker) {
-    div.innerText = "Joker";
+    img.innerText = "Joker";
   } else {
     switch (suit) {
       case "hearts":
-        img = `../images/card-fronts/hearts_${rank}`;
+        src = `../images/card-fronts/hearts_${rank}.png`;
         break;
       case "diamonds":
-        img = `../images/card-fronts/diamonds_${rank}`;
+        src = `../images/card-fronts/diamonds_${rank}.png`;
         break;
       case "spades":
-        img = `../images/card-fronts/spades_${rank}`;
+        src = `../images/card-fronts/spades_${rank}.png`;
         break;
       case "clubs":
-        img = `../images/card-fronts/clubs_${rank}`;
+        src = `../images/card-fronts/clubs_${rank}.png`;
         break;
     }
   }
-  console.log(img);
+  // img.style.backgroundImage = `"url('${src}')"`;
+  img.setAttribute("id", `${suit}_${rank}`);
+  img.setAttribute("src", `${src}`);
+  img.style.height = "150px";
+  pileDeck.appendChild(img);
+  console.log(`'${src}'`);
 }

@@ -18,6 +18,10 @@ main {
   padding: 10px;
 }
 
+#pile-card {
+  height: 100px;
+}
+
 #board-container {
   display: -ms-grid;
   display: grid;
