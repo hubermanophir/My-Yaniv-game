@@ -22,6 +22,11 @@ main {
   height: 100px;
 }
 
+#table-deck {
+  display: block;
+  height: 100px;
+}
+
 #board-container {
   display: -ms-grid;
   display: grid;

@@ -17,6 +17,10 @@ main {
 #pile-card {
   height: 100px;
 }
+#table-deck {
+  display: block;
+  height: 100px;
+}
 #board-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);

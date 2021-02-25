@@ -3,14 +3,15 @@ const start = document.getElementById("start");
 const pileDeck = document.getElementById("pile-deck");
 let numberOfPlayers;
 const tableDeck = createTableDeck();
-console.log(tableDeck);
 const players = [];
 
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
   createCardDiv(tableDeck.cards.pop());
-  console.log(players);
+  // console.log(players);
+  start.hidden = true;
+  console.log(tableDeck);
 });
 
 //creates a new deck
@@ -56,7 +57,8 @@ function createCardDiv(card) {
   const { isJoker } = card;
   let src;
   if (isJoker) {
-    img.innerText = "Joker";
+    img.setAttribute("id", `joker-card`);
+    img.setAttribute("src", `../images/card-fronts/joker`);
   } else {
     switch (suit) {
       case "hearts":
@@ -72,11 +74,9 @@ function createCardDiv(card) {
         src = `../images/card-fronts/clubs_${rank}.png`;
         break;
     }
+    img.setAttribute("id", `${suit}_${rank}`);
+    img.setAttribute("src", `${src}`);
   }
-  // img.style.backgroundImage = `"url('${src}')"`;
-  img.setAttribute("id", `${suit}_${rank}`);
-  img.setAttribute("src", `${src}`);
   img.style.height = "150px";
   pileDeck.appendChild(img);
-  console.log(`'${src}'`);
 }
