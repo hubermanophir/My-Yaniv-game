@@ -1,5 +1,6 @@
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
+const pileDeck = document.getElementById("pile-deck");
 let numberOfPlayers;
 const tableDeck = createTableDeck();
 console.log(tableDeck);
@@ -8,7 +9,7 @@ const players = [];
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  console.log(numberOfPlayers);
+  createCardDiv(tableDeck.cards.pop());
   console.log(players);
 });
 
@@ -45,4 +46,18 @@ function createPlayers() {
     const player = new Player(prompt(`player ${i + 1} name`), cards);
     players.push(player);
   }
+}
+
+//creating a card div from card object
+function createCardDiv(card) {
+  const div = document.createElement("div");
+  const { suit } = card;
+  const { rank } = card;
+  const { isJoker } = card;
+  if (isJoker) {
+    div.innerText = "Joker";
+  } else {
+    div.innerText = suit + rank;
+  }
+  pileDeck.appendChild(div);
 }
