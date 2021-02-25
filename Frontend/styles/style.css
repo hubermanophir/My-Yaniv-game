@@ -17,14 +17,16 @@ main {
   top: 0;
   padding: 10px;
 }
-
+#table-deck-img {
+  height: 115px;
+}
 #board-container {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[12];
-      grid-template-columns: repeat(12, 1fr);
-  -ms-grid-rows: (1fr)[12];
-      grid-template-rows: repeat(12, 1fr);
+  -ms-grid-columns: (1fr) [12];
+  grid-template-columns: repeat(12, 1fr);
+  -ms-grid-rows: (1fr) [12];
+  grid-template-rows: repeat(12, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   max-width: 800px;
@@ -43,12 +45,12 @@ main {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   border: solid 1px black;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding: 10px;
 }
 
@@ -60,7 +62,6 @@ main {
   -ms-grid-column: 4;
   -ms-grid-column-span: 6;
   grid-area: 10 / 4 / 13 / 10;
-  border: solid 1px black;
 }
 
 #player2 {
@@ -71,7 +72,6 @@ main {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: 3 / 1 / 10 / 3;
-  border: solid 1px black;
 }
 
 #player3 {
@@ -82,7 +82,6 @@ main {
   -ms-grid-column: 11;
   -ms-grid-column-span: 2;
   grid-area: 3 / 11 / 10 / 13;
-  border: solid 1px black;
 }
 
 #player4 {
@@ -93,6 +92,21 @@ main {
   -ms-grid-column: 4;
   -ms-grid-column-span: 6;
   grid-area: 1 / 4 / 4 / 10;
-  border: solid 1px black;
+}
+.player-deck {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: 10px;
+}
+/* .player-deck img {
+  margin-left: 5px;
+} */
+
+#player3-deck {
+  transform: rotate(90deg);
+}
+#player2-deck {
+  transform: rotate(90deg);
 }
 /*# sourceMappingURL=style.css.map */

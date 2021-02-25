@@ -21,6 +21,14 @@ main {
   display: block;
   height: 100px;
 }
+#Yaniv {
+  margin-left: 100px;
+}
+
+#table-deck-img {
+  height: 100px;
+}
+
 #board-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -36,7 +44,6 @@ main {
   grid-area: 5 / 4 / 9 / 10;
   display: flex;
   justify-content: space-between;
-  border: solid 1px black;
   align-items: center;
   padding: 10px;
 }
@@ -44,23 +51,19 @@ main {
   text-align: center;
   display: inline;
   grid-area: 10 / 4 / 13 / 10;
-  border: solid 1px black;
 }
 #player2 {
   text-align: center;
   display: inline;
   grid-area: 3 / 1 / 10 / 3;
-  border: solid 1px black;
 }
 #player3 {
   text-align: center;
   display: inline;
   grid-area: 1 / 4 / 4 / 10;
-  border: solid 1px black;
 }
 #player4 {
   text-align: center;
   display: inline;
   grid-area: 3 / 11 / 11 / 13;
-  border: solid 1px black;
 }
