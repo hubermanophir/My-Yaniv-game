@@ -1,8 +1,16 @@
+const selection = document.getElementById("player-number");
+const start = document.getElementById("start");
+let numberOfPlayers;
+
+start.addEventListener("click", () => {
+  numberOfPlayers = selection.value;
+  console.log(numberOfPlayers);
+});
+
+//creates a new deck of cards and assigns it to deck object
 const cards = createDeck();
-const newDeckNumber = 54;
-
-const deck = new Deck(cards, newDeckNumber);
-
+const cardsNumber = 54;
+const deck = new Deck(cards, cardsNumber);
 // console.log(deck);
 // deck.shuffle();
 // console.log(deck);

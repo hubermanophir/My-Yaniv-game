@@ -46,3 +46,9 @@ class PileDeck extends Deck {
     this.numberOfCards = numberOfCards;
   }
 }
+class Player {
+  constructor(name, playerDeck) {
+    this.name = name;
+    this.playerDeck = playerDeck;
+  }
+}

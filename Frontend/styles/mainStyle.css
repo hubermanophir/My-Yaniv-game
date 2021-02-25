@@ -77,22 +77,22 @@ main {
 #player3 {
   text-align: center;
   display: inline;
-  -ms-grid-row: 3;
-  -ms-grid-row-span: 8;
-  -ms-grid-column: 11;
-  -ms-grid-column-span: 2;
-  grid-area: 3 / 11 / 11 / 13;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 6;
+  grid-area: 1 / 4 / 4 / 10;
   border: solid 1px black;
 }
 
 #player4 {
   text-align: center;
   display: inline;
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 3;
-  -ms-grid-column: 4;
-  -ms-grid-column-span: 6;
-  grid-area: 1 / 4 / 4 / 10;
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 8;
+  -ms-grid-column: 11;
+  -ms-grid-column-span: 2;
+  grid-area: 3 / 11 / 11 / 13;
   border: solid 1px black;
 }
 /*# sourceMappingURL=mainStyle.css.map */
