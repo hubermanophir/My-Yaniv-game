@@ -9,7 +9,7 @@ const players = [];
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  createCardDiv(tableDeck.cards.pop());
+  createCard(tableDeck.cards.pop());
   console.log(players);
 });
 
@@ -60,4 +60,31 @@ function createCardDiv(card) {
     div.innerText = suit + rank;
   }
   pileDeck.appendChild(div);
+}
+
+function createCard(card) {
+  const div = document.createElement("div");
+  const { suit } = card;
+  const { rank } = card;
+  const { isJoker } = card;
+  let img;
+  if (isJoker) {
+    div.innerText = "Joker";
+  } else {
+    switch (suit) {
+      case "hearts":
+        img = `../images/card-fronts/hearts_${rank}`;
+        break;
+      case "diamonds":
+        img = `../images/card-fronts/diamonds_${rank}`;
+        break;
+      case "spades":
+        img = `../images/card-fronts/spades_${rank}`;
+        break;
+      case "clubs":
+        img = `../images/card-fronts/clubs_${rank}`;
+        break;
+    }
+  }
+  console.log(img);
 }
