@@ -109,4 +109,19 @@ main {
 #player2-deck {
   transform: rotate(90deg);
 }
+#player1-deck img {
+  margin-left: 1px;
+}
+#player2-deck img {
+  margin-left: 1px;
+}
+
+#player3-deck img {
+  margin-left: 1px;
+}
+
+#player4-deck img {
+  margin-left: 1px;
+}
+
 /*# sourceMappingURL=style.css.map */
