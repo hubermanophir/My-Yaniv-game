@@ -78,10 +78,10 @@ main {
   text-align: center;
   display: inline;
   -ms-grid-row: 3;
-  -ms-grid-row-span: 7;
+  -ms-grid-row-span: 8;
   -ms-grid-column: 11;
   -ms-grid-column-span: 2;
-  grid-area: 3 / 11 / 10 / 13;
+  grid-area: 3 / 11 / 11 / 13;
   border: solid 1px black;
 }
 
@@ -95,4 +95,4 @@ main {
   grid-area: 1 / 4 / 4 / 10;
   border: solid 1px black;
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=mainStyle.css.map */
