@@ -11,6 +11,22 @@ class Deck {
     this.numberOfCards = numberOfCards;
     this.cards = deck;
   }
+  shuffle() {
+    for (let i = 0; i < 1000; i++) {
+      let location1 = Math.floor(Math.random() * this.cards.length);
+      let location2 = Math.floor(Math.random() * this.cards.length);
+      let tmp = this.cards[location1];
+
+      this.cards[location1] = this.cards[location2];
+      this.cards[location2] = tmp;
+    }
+  }
+}
+
+class PlayerDeck extends Deck {
+  constructor() {
+    this.numberOfCards = 5;
+  }
 }
 const suits = ["spades", "diamonds", "clubs", "hearts"];
 const values = [
@@ -48,3 +64,7 @@ function createDeck() {
   deck.push(new Card(null, 0, true));
   return deck;
 }
+
+deck.shuffle();
+
+console.log(deck);
