@@ -22,13 +22,9 @@ start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
   createCardDiv(tableDeck.cards.pop(), pileDeck);
-  // const playerSum = players[0].currentSum();
-  // console.log(players);
-  start.hidden = true;
-  const playersScores = calculatePlayerScore(players);
-  console.log(playersScores);
   setCardsToPlayers(players);
   firstPlayerDiv(players);
+  start.hidden = true;
 });
 
 //---------------------functions-----------------------------
@@ -116,11 +112,11 @@ function setCardsToPlayers(players) {
 }
 
 //calculates the sum of each player and returns an array of sums
-function calculatePlayerScore(players) {
+function playerScoreArr(players) {
   const sumArr = [];
   for (const player of players) {
-    const playerSum = player.currentSum();
-    sumArr.push(playerSum);
+    player.currentSum();
+    sumArr.push(player.score);
   }
   return sumArr;
 }

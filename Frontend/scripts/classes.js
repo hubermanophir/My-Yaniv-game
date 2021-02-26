@@ -75,6 +75,6 @@ class Player {
         sum += Number(card.rank);
       }
     }
-    return sum;
+    this.score = sum;
   }
 }
