@@ -31,7 +31,7 @@ main {
   grid-row-gap: 0px;
   max-width: 800px;
   margin: auto;
-  height: 85vh;
+  height: 800px;
   padding: 10px;
 }
 
@@ -99,15 +99,22 @@ main {
   position: relative;
   top: 10px;
 }
-/* .player-deck img {
-  margin-left: 5px;
-} */
 
-#player3-deck {
-  transform: rotate(90deg);
+#player1-deck {
+  right: 25px;
+  top: 40px;
 }
 #player2-deck {
   transform: rotate(90deg);
+  top: 50px;
+}
+#player3-deck {
+  transform: rotate(90deg);
+  top: 50px;
+}
+#player4-deck {
+  right: 25px;
+  top: 40px;
 }
 
 /*# sourceMappingURL=style.css.map */
