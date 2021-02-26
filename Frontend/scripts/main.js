@@ -1,5 +1,6 @@
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
+const startingPlayer = document.getElementById("starting-player");
 const pileDeck = document.getElementById("pile-deck");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
@@ -21,12 +22,16 @@ start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
   createCardDiv(tableDeck.cards.pop(), pileDeck);
-  console.log(players);
+  // const playerSum = players[0].currentSum();
+  // console.log(players);
   start.hidden = true;
   const playersScores = calculatePlayerScore(players);
   console.log(playersScores);
   setCardsToPlayers(players);
+  firstPlayerDiv(players);
 });
+
+//---------------------functions-----------------------------
 
 //creates a new deck
 function createDeck() {
@@ -112,36 +117,24 @@ function setCardsToPlayers(players) {
 
 //calculates the sum of each player and returns an array of sums
 function calculatePlayerScore(players) {
-  const scoresArr = [];
+  const sumArr = [];
   for (const player of players) {
-    let sum = 0;
-    const { playerDeck } = player;
-    for (const card of playerDeck) {
-      if (
-        card.rank === "K" ||
-        card.rank === "Q" ||
-        card.rank === "J" ||
-        card.rank === "A"
-      ) {
-        switch (card.rank) {
-          case "A":
-            sum += 1;
-            break;
-          case "K":
-            sum += 13;
-            break;
-          case "Q":
-            sum += 12;
-            break;
-          case "J":
-            sum += 11;
-            break;
-        }
-      } else {
-        sum += Number(card.rank);
-      }
-    }
-    scoresArr.push(sum);
+    const playerSum = player.currentSum();
+    sumArr.push(playerSum);
   }
-  return scoresArr;
+  return sumArr;
+}
+
+//generates a random first player
+function randomStartingPlayer(players) {
+  return Math.floor(Math.random() * players.length);
+}
+
+//creates a div that says who is the first player
+function firstPlayerDiv(players) {
+  const playerNumber = randomStartingPlayer(players);
+  const { name } = players[playerNumber];
+  const div = document.createElement("div");
+  div.innerText = name + " starts!";
+  startingPlayer.appendChild(div);
 }
