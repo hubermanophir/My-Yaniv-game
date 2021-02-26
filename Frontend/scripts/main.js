@@ -29,19 +29,23 @@ start.addEventListener("click", () => {
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
-  console.log(currentPlayer);
 });
 
 //listens only for the current player
 document.addEventListener("click", (e) => {
   if (
-    e.target.className === "player-card" &&
-    e.target.className !== "pile-deck"
+    (e.target.className === "player-card" &&
+      e.target.className !== "pile-deck") ||
+    e.target.className === "player-card marked"
   ) {
     const childNode = e.target;
     const playerNode = childNode.parentNode;
-    if (playerNode.firstElementChild.innerText === currentPlayer) {
-      childNode.style.opacity = "30%";
+    console.log(childNode);
+    if (
+      playerNode.firstElementChild.innerText ===
+      playerNames[currentPlayer].innerText
+    ) {
+      AddOrRemoveMarkedClass(childNode);
     }
   }
 });
@@ -151,4 +155,13 @@ function firstPlayerDiv(players) {
   div.innerText = name + " starts!";
   currentPlayerDiv.appendChild(div);
   return playerNumber;
+}
+
+//add or removes class marked from element
+function AddOrRemoveMarkedClass(element) {
+  if (element.classList.contains("marked")) {
+    element.classList.remove("marked");
+  } else {
+    element.classList.add("marked");
+  }
 }

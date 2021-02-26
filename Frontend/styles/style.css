@@ -128,4 +128,8 @@ main {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
 }
+
+.marked {
+  opacity: 20%;
+}
 /*# sourceMappingURL=style.css.map */
