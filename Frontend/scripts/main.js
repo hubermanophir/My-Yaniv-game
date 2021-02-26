@@ -12,6 +12,8 @@ const player2 = document.getElementById("player2");
 const player3 = document.getElementById("player3");
 const player4 = document.getElementById("player4");
 const playerDecks = [player1, player2, player3, player4];
+const pileArray = [];
+let currentPlayer;
 
 let numberOfPlayers;
 const tableDeck = createTableDeck();
@@ -21,10 +23,27 @@ const players = [];
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  createCardDiv(tableDeck.cards.pop(), pileDeck);
+  //creates pile deck
+  pileArray.push(tableDeck.cards.pop());
+  createCardDiv(pileArray[0], pileDeck, "pile-card");
   setCardsToPlayers(players);
-  firstPlayerDiv(players);
+  currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
+  console.log(currentPlayer);
+});
+
+document.addEventListener("click", (e) => {
+  if (
+    e.target.className === "player-card" &&
+    e.target.className !== "pile-deck"
+  ) {
+    const childNode = e.target;
+    const parent = childNode.parentNode;
+    if (parent.firstElementChild.innerText === currentPlayer) {
+      e.target.style.opacity = "30%";
+      console.log(parent);
+    }
+  }
 });
 
 //---------------------functions-----------------------------
@@ -66,7 +85,7 @@ function createPlayers() {
 }
 
 //creating a card div from card object and adds it to parent element
-function createCardDiv(card, parent) {
+function createCardDiv(card, parent, className) {
   const img = document.createElement("img");
   const { suit } = card;
   const { rank } = card;
@@ -94,6 +113,9 @@ function createCardDiv(card, parent) {
     img.setAttribute("id", `${suit}_${rank}`);
     img.setAttribute("src", `${src}`);
     img.setAttribute("class", "player-card");
+  }
+  if (className) {
+    img.setAttribute("class", "pile-card");
   }
   img.style.height = "135px";
   parent.appendChild(img);
@@ -133,4 +155,5 @@ function firstPlayerDiv(players) {
   const div = document.createElement("div");
   div.innerText = name + " starts!";
   startingPlayer.appendChild(div);
+  return name;
 }
