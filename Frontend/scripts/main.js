@@ -1,6 +1,6 @@
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
-const startingPlayer = document.getElementById("starting-player");
+const currentPlayerDiv = document.getElementById("current-player");
 const pileDeck = document.getElementById("pile-deck");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
@@ -32,16 +32,16 @@ start.addEventListener("click", () => {
   console.log(currentPlayer);
 });
 
+//listens only for the current player
 document.addEventListener("click", (e) => {
   if (
     e.target.className === "player-card" &&
     e.target.className !== "pile-deck"
   ) {
     const childNode = e.target;
-    const parent = childNode.parentNode;
-    if (parent.firstElementChild.innerText === currentPlayer) {
-      e.target.style.opacity = "30%";
-      console.log(parent);
+    const playerNode = childNode.parentNode;
+    if (playerNode.firstElementChild.innerText === currentPlayer) {
+      childNode.style.opacity = "30%";
     }
   }
 });
@@ -143,17 +143,12 @@ function playerScoreArr(players) {
   return sumArr;
 }
 
-//generates a random first player
-function randomStartingPlayer(players) {
-  return Math.floor(Math.random() * players.length);
-}
-
 //creates a div that says who is the first player
 function firstPlayerDiv(players) {
-  const playerNumber = randomStartingPlayer(players);
+  const playerNumber = Math.floor(Math.random() * players.length);
   const { name } = players[playerNumber];
   const div = document.createElement("div");
   div.innerText = name + " starts!";
-  startingPlayer.appendChild(div);
-  return name;
+  currentPlayerDiv.appendChild(div);
+  return playerNumber;
 }
