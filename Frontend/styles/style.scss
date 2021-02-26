@@ -18,11 +18,9 @@ main {
   top: 0;
   padding: 10px;
 }
-
 #table-deck-img {
   height: 135px;
 }
-
 #yaniv {
   font-size: 2em;
   border-radius: 50%;
@@ -31,15 +29,18 @@ main {
   padding-left: 0.1em;
   padding-right: 0.1em;
   font-weight: bold;
-  background-color: yellow;
+  background-color: red;
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
 }
-
 #board-container {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr [12];
+  -ms-grid-columns: (1fr);
   grid-template-columns: repeat(12, 1fr);
-  -ms-grid-rows: 1fr [12];
+  -ms-grid-rows: (1fr) [12];
   grid-template-rows: repeat(12, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -76,6 +77,8 @@ main {
   -ms-grid-column: 4;
   -ms-grid-column-span: 6;
   grid-area: 10 / 4 / 13 / 10;
+  right: 30px;
+  top: 55px;
 }
 
 #player2 {
@@ -86,6 +89,10 @@ main {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: 3 / 1 / 10 / 3;
+  top: 50px;
+  img {
+    transform: rotate(90deg);
+  }
 }
 
 #player3 {
@@ -96,6 +103,10 @@ main {
   -ms-grid-column: 11;
   -ms-grid-column-span: 2;
   grid-area: 3 / 11 / 10 / 13;
+  top: 50px;
+  img {
+    transform: rotate(90deg);
+  }
 }
 
 #player4 {
@@ -106,38 +117,6 @@ main {
   -ms-grid-column: 4;
   -ms-grid-column-span: 6;
   grid-area: 1 / 4 / 4 / 10;
-}
-
-.player-deck {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  position: relative;
-  top: 10px;
-}
-
-#player1-deck {
-  right: 25px;
+  right: 30px;
   top: 40px;
 }
-
-#player2-deck {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-  top: 50px;
-}
-
-#player3-deck {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-  top: 50px;
-}
-
-#player4-deck {
-  right: 25px;
-  top: 40px;
-}
-/*# sourceMappingURL=mainStyle.css.map */

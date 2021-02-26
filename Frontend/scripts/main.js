@@ -6,11 +6,11 @@ const player2Name = document.getElementById("name2");
 const player3Name = document.getElementById("name3");
 const player4Name = document.getElementById("name4");
 const playerNames = [player1Name, player2Name, player3Name, player4Name];
-const player1Deck = document.getElementById("player1-deck");
-const player2Deck = document.getElementById("player2-deck");
-const player3Deck = document.getElementById("player3-deck");
-const player4Deck = document.getElementById("player4-deck");
-const playerDecks = [player1Deck, player2Deck, player3Deck, player4Deck];
+const player1 = document.getElementById("player1");
+const player2 = document.getElementById("player2");
+const player3 = document.getElementById("player3");
+const player4 = document.getElementById("player4");
+const playerDecks = [player1, player2, player3, player4];
 
 let numberOfPlayers;
 const tableDeck = createTableDeck();
@@ -23,7 +23,8 @@ start.addEventListener("click", () => {
   createCardDiv(tableDeck.cards.pop(), pileDeck);
   console.log(players);
   start.hidden = true;
-  console.log(tableDeck);
+  const playersScores = calculatePlayerScore(players);
+  console.log(playersScores);
   setCardsToPlayers(players);
 });
 
@@ -73,6 +74,7 @@ function createCardDiv(card, parent) {
   if (isJoker) {
     img.setAttribute("id", `joker-card`);
     img.setAttribute("src", `./images/card-fronts/joker.png`);
+    img.setAttribute("class", "player-card");
   } else {
     switch (suit) {
       case "hearts":
@@ -90,8 +92,9 @@ function createCardDiv(card, parent) {
     }
     img.setAttribute("id", `${suit}_${rank}`);
     img.setAttribute("src", `${src}`);
+    img.setAttribute("class", "player-card");
   }
-  img.style.height = "130px";
+  img.style.height = "135px";
   parent.appendChild(img);
 }
 
@@ -105,4 +108,40 @@ function setCardsToPlayers(players) {
     }
     counter++;
   }
+}
+
+//calculates the sum of each player and returns an array of sums
+function calculatePlayerScore(players) {
+  const scoresArr = [];
+  for (const player of players) {
+    let sum = 0;
+    const { playerDeck } = player;
+    for (const card of playerDeck) {
+      if (
+        card.rank === "K" ||
+        card.rank === "Q" ||
+        card.rank === "J" ||
+        card.rank === "A"
+      ) {
+        switch (card.rank) {
+          case "A":
+            sum += 1;
+            break;
+          case "K":
+            sum += 13;
+            break;
+          case "Q":
+            sum += 12;
+            break;
+          case "J":
+            sum += 11;
+            break;
+        }
+      } else {
+        sum += Number(card.rank);
+      }
+    }
+    scoresArr.push(sum);
+  }
+  return scoresArr;
 }
