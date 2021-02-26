@@ -13,6 +13,7 @@ const player3 = document.getElementById("player3");
 const player4 = document.getElementById("player4");
 const playerDecks = [player1, player2, player3, player4];
 const pileArray = [];
+let marked = [];
 let currentPlayer;
 
 let numberOfPlayers;
@@ -33,20 +34,14 @@ start.addEventListener("click", () => {
 
 //listens only for the current player
 document.addEventListener("click", (e) => {
+  const card = e.target;
+  const playerNode = card.parentNode;
   if (
-    (e.target.className === "player-card" &&
-      e.target.className !== "pile-deck") ||
-    e.target.className === "player-card marked"
+    playerNode.firstElementChild.innerText ===
+    playerNames[currentPlayer].innerText
   ) {
-    const childNode = e.target;
-    const playerNode = childNode.parentNode;
-    console.log(childNode);
-    if (
-      playerNode.firstElementChild.innerText ===
-      playerNames[currentPlayer].innerText
-    ) {
-      AddOrRemoveMarkedClass(childNode);
-    }
+    AddOrRemoveMarkedClass(card);
+    console.log(marked);
   }
 });
 
@@ -161,7 +156,29 @@ function firstPlayerDiv(players) {
 function AddOrRemoveMarkedClass(element) {
   if (element.classList.contains("marked")) {
     element.classList.remove("marked");
+    marked = removeCardFromArray(marked, element);
   } else {
     element.classList.add("marked");
+    marked.push(element);
   }
+}
+
+function ifArrayHasCardImage(array, card) {
+  for (const item of array) {
+    if (item.id === card.id || item.id === `joker-card`) {
+      return true;
+    }
+  }
+  return false;
+}
+
+//removes a specific card
+function removeCardFromArray(array, card) {
+  const newArray = [];
+  for (const item of array) {
+    if (item.id !== card.id) {
+      newArray.push(item);
+    }
+  }
+  return newArray;
 }
