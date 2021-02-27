@@ -12,7 +12,7 @@ const player1 = document.getElementById("player1");
 const player2 = document.getElementById("player2");
 const player3 = document.getElementById("player3");
 const player4 = document.getElementById("player4");
-const playerDecks = [player1, player2, player3, player4];
+const playerDivs = [player1, player2, player3, player4];
 const pileArray = [];
 let marked = [];
 let currentPlayer;
@@ -42,12 +42,15 @@ document.addEventListener("click", (e) => {
     playerNames[currentPlayer].innerText
   ) {
     AddOrRemoveMarkedClass(card);
-    console.log(marked);
   }
 });
 
+//finish player turn
 finishTurn.addEventListener("click", (e) => {
   if (marked.length === 1) {
+    const player = players[currentPlayer];
+    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    console.log(player);
     marked[0].remove();
     const thrownCard = marked.pop();
     const pileCard = pileDeck.lastChild;
@@ -55,10 +58,20 @@ finishTurn.addEventListener("click", (e) => {
     thrownCard.classList.remove("marked");
     pileDeck.appendChild(thrownCard);
   } else if (checkSameRank(marked)) {
-    console.log("check same works");
-    const pileCard = pileDeck.lastChild;
-    pileCard.hidden = true;
-    const markedLength = marked.length;
+    const player = players[currentPlayer];
+    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    console.log(player);
+    while (marked.length !== 0) {
+      const thrownCard = marked.pop();
+      const pileCard = pileDeck.lastChild;
+      pileCard.hidden = true;
+      thrownCard.classList.remove("marked");
+      pileDeck.appendChild(thrownCard);
+    }
+    // console.log("check same works");
+    // const pileCard = pileDeck.lastChild;
+    // pileCard.hidden = true;
+    // const markedLength = marked.length;
   }
 });
 
@@ -143,7 +156,7 @@ function setCardsToPlayers(players) {
   for (const player of players) {
     const cards = player.playerDeck;
     for (let i = 0; i < 5; i++) {
-      createCardDiv(cards[i], playerDecks[counter]);
+      createCardDiv(cards[i], playerDivs[counter]);
     }
     counter++;
   }
@@ -226,4 +239,19 @@ function checkSameRank(array) {
     }
   }
   return bool;
+}
+
+//remove cards from player object
+function removeMarkedFromPlayer(player, marked) {
+  let { playerDeck } = player;
+  for (const card of marked) {
+    for (let i = 0; i < playerDeck.length; i++) {
+      if (card.id === `${playerDeck[i].suit}_${playerDeck[i].rank}`) {
+        playerDeck.splice(i, 1);
+      } else if (card.id === `joker-card` && playerDeck[i].isJoker === true) {
+        playerDeck.splice(i, 1);
+      }
+    }
+  }
+  return playerDeck;
 }
