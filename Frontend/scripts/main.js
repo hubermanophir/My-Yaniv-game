@@ -68,8 +68,17 @@ finishTurn.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeck.appendChild(thrownCard);
     }
-  } else if (sameSuit(marked)) {
-    console.log("same suit");
+  } else if (sameSuit(marked) && checkIfThreeConsecutive(array)) {
+    const player = players[currentPlayer];
+    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    console.log(player);
+    while (marked.length !== 0) {
+      const thrownCard = marked.pop();
+      const pileCard = pileDeck.lastChild;
+      pileCard.hidden = true;
+      thrownCard.classList.remove("marked");
+      pileDeck.appendChild(thrownCard);
+    }
   }
 });
 
