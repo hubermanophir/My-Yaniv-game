@@ -3,6 +3,7 @@ const start = document.getElementById("start");
 const currentPlayerDiv = document.getElementById("current-player");
 const pileDeckDiv = document.getElementById("pile-deck");
 const tableDeckElement = document.getElementById("table-deck");
+const throwCard = document.getElementById("throw-card");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
 const player3Name = document.getElementById("name3");
@@ -18,7 +19,8 @@ const pileArray = [];
 let marked = [];
 let currentPlayer;
 let pileOrTableClicks = 0;
-
+let cardTaken = false;
+let didPlayerThrowCard = false;
 let numberOfPlayers;
 const tableDeck = createTableDeck();
 const pileDeck = [];
@@ -48,9 +50,9 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//finish player turn
-finishTurn.addEventListener("click", (e) => {
-  if (marked.length === 1) {
+//throw cards
+throwCard.addEventListener("click", (e) => {
+  if (marked.length === 1 && !didPlayerThrowCard) {
     const player = players[currentPlayer];
     player.playerDeck = removeMarkedFromPlayer(player, marked);
     console.log(player);
@@ -60,10 +62,9 @@ finishTurn.addEventListener("click", (e) => {
     pileCard.hidden = true;
     thrownCard.classList.remove("marked");
     pileDeckDiv.appendChild(thrownCard);
-
-    nextPlayer();
     pileArray.push(divToCard(thrownCard));
-  } else if (checkSameRank(marked)) {
+    didPlayerThrowCard = true;
+  } else if (checkSameRank(marked) && !didPlayerThrowCard) {
     const player = players[currentPlayer];
     player.playerDeck = removeMarkedFromPlayer(player, marked);
     console.log(player);
@@ -74,10 +75,13 @@ finishTurn.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeckDiv.appendChild(thrownCard);
     }
-
-    nextPlayer();
+    didPlayerThrowCard = true;
     pileArray.push(divToCard(thrownCard));
-  } else if (sameSuit(marked) && checkIfThreeConsecutive(array)) {
+  } else if (
+    sameSuit(marked) &&
+    checkIfThreeConsecutive(array) &&
+    !didPlayerThrowCard
+  ) {
     const player = players[currentPlayer];
     player.playerDeck = removeMarkedFromPlayer(player, marked);
     console.log(player);
@@ -88,29 +92,39 @@ finishTurn.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeckDiv.appendChild(thrownCard);
     }
-
-    nextPlayer();
     pileArray.push(divToCard(thrownCard));
+    didPlayerThrowCard = true;
+  }
+});
+
+//finish turn
+finishTurn.addEventListener("click", () => {
+  if (cardTaken) {
+    didPlayerThrowCard = false;
+    nextPlayer();
+    cardTaken = false;
   }
 });
 
 //take card from table deck
 tableDeckElement.addEventListener("click", () => {
-  if (pileOrTableClicks === 0) {
+  if (pileOrTableClicks === 0 && didPlayerThrowCard) {
     const card = tableDeck.cards.pop();
     createCardDiv(card, playerDivs[currentPlayer]);
     pileOrTableClicks++;
+    cardTaken = true;
   }
 });
 
 //take card from pile deck
 pileDeckDiv.addEventListener("click", () => {
-  if (pileOrTableClicks === 0) {
+  if (pileOrTableClicks === 0 && didPlayerThrowCard) {
     const card = pileArray.pop();
     createCardDiv(card, playerDivs[currentPlayer]);
     pileDeckDiv.lastChild.remove();
     pileDeckDiv.lastChild.hidden = false;
     pileOrTableClicks++;
+    cardTaken = true;
   }
 });
 
