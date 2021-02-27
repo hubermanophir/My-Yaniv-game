@@ -68,10 +68,8 @@ finishTurn.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeck.appendChild(thrownCard);
     }
-    // console.log("check same works");
-    // const pileCard = pileDeck.lastChild;
-    // pileCard.hidden = true;
-    // const markedLength = marked.length;
+  } else if (sameSuit(marked)) {
+    console.log("same suit");
   }
 });
 
@@ -214,16 +212,40 @@ function removeCardFromArray(array, card) {
 }
 
 //check if array is at least 3 cards and consecutive
-function checkIfThreeAndConsecutive(array) {
-  const sortedArray = [];
+function checkIfThreeConsecutive(array) {
   if (array.length >= 3) {
-    for (const card of array) {
-      const value = card.id[card.id.length - 1];
-      if (value === 0) {
-        value = 10;
-      }
+  } else {
+    return false;
+  }
+}
+//"spades", "diamonds", "clubs", "hearts"
+//check if same suit
+function sameSuit(array) {
+  const suits = [];
+  for (const card of array) {
+    if (card.id.includes("spades")) {
+      suits.push("spades");
+    } else if (card.id.includes("diamonds")) {
+      suits.push("diamonds");
+    } else if (card.id.includes("clubs")) {
+      suits.push("clubs");
+    } else if (card.id.includes("hearts")) {
+      suits.push("hearts");
+    } else {
+      suits.push("joker");
     }
   }
+  const firstSuit = suits[0];
+  let bool = false;
+  for (const suit of suits) {
+    if (suit === firstSuit || suit === "joker") {
+      bool = true;
+    } else {
+      bool = false;
+      break;
+    }
+  }
+  return bool;
 }
 
 //check if cards are the same rank
@@ -241,7 +263,7 @@ function checkSameRank(array) {
   return bool;
 }
 
-//remove cards from player object
+//remove cards from player object and returns the new array
 function removeMarkedFromPlayer(player, marked) {
   let { playerDeck } = player;
   for (const card of marked) {
