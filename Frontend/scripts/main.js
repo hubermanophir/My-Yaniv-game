@@ -375,7 +375,6 @@ function cardsArrayToNumber(array) {
   return newArray;
 }
 
-//"spades", "diamonds", "clubs", "hearts"
 //check if same suit
 function sameSuit(array) {
   const suits = [];
@@ -434,9 +433,6 @@ function removeMarkedFromPlayer(player, marked) {
   }
   return playerDeck;
 }
-
-const testArray = [20, 45, 32, 20, 50, 68];
-const lowestArr = lowestScorePlayers(players);
 
 //who has the lowest score
 function lowestScorePlayers(players) {
