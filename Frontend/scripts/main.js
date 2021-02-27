@@ -4,6 +4,7 @@ const currentPlayerDiv = document.getElementById("current-player");
 const pileDeckDiv = document.getElementById("pile-deck");
 const tableDeckElement = document.getElementById("table-deck");
 const throwCard = document.getElementById("throw-card");
+const yaniv = document.getElementById("yaniv");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
 const player3Name = document.getElementById("name3");
@@ -15,7 +16,6 @@ const player2 = document.getElementById("player2");
 const player3 = document.getElementById("player3");
 const player4 = document.getElementById("player4");
 const playerDivs = [player1, player2, player3, player4];
-const pileArray = [];
 let marked = [];
 let currentPlayer;
 let pileOrTableClicks = 0;
@@ -30,12 +30,12 @@ const players = [];
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  //creates pile deck
-  pileArray.push(tableDeck.cards.pop());
-  createCardDiv(pileArray[0], pileDeckDiv, "pile-card");
+  pileDeck.push(tableDeck.cards.pop());
+  createCardDiv(pileDeck[0], pileDeckDiv, "pile-card");
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
+  console.log(players);
 });
 
 //listens only for the current player
@@ -47,6 +47,18 @@ document.addEventListener("click", (e) => {
     playerNames[currentPlayer].innerText
   ) {
     AddOrRemoveMarkedClass(card);
+  }
+});
+
+//yaniv button
+yaniv.addEventListener("click", () => {
+  const player = players[currentPlayer];
+  const cardsSum = player.currentSum();
+  if (cardsSum < 7) {
+    const lowestPlayerIndex = lowestScorePlayers(players);
+    if (lowestPlayerIndex.length === 1) {
+      console.log(`${players[currentPlayer].name} won this round`);
+    }
   }
 });
 
@@ -62,7 +74,7 @@ throwCard.addEventListener("click", (e) => {
     pileCard.hidden = true;
     thrownCard.classList.remove("marked");
     pileDeckDiv.appendChild(thrownCard);
-    pileArray.push(divToCard(thrownCard));
+    pileDeck.push(divToCard(thrownCard));
     didPlayerThrowCard = true;
   } else if (checkSameRank(marked) && !didPlayerThrowCard) {
     const player = players[currentPlayer];
@@ -76,7 +88,7 @@ throwCard.addEventListener("click", (e) => {
       pileDeckDiv.appendChild(thrownCard);
     }
     didPlayerThrowCard = true;
-    pileArray.push(divToCard(thrownCard));
+    pileDeck.push(divToCard(thrownCard));
   } else if (
     sameSuit(marked) &&
     checkIfThreeConsecutive(array) &&
@@ -92,7 +104,7 @@ throwCard.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeckDiv.appendChild(thrownCard);
     }
-    pileArray.push(divToCard(thrownCard));
+    pileDeck.push(divToCard(thrownCard));
     didPlayerThrowCard = true;
   }
 });
@@ -108,6 +120,8 @@ finishTurn.addEventListener("click", () => {
 
 //take card from table deck
 tableDeckElement.addEventListener("click", () => {
+  if (tableDeck) {
+  }
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
     const card = tableDeck.cards.pop();
     createCardDiv(card, playerDivs[currentPlayer]);
@@ -119,7 +133,7 @@ tableDeckElement.addEventListener("click", () => {
 //take card from pile deck
 pileDeckDiv.addEventListener("click", () => {
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
-    const card = pileArray.pop();
+    const card = pileDeck.pop();
     createCardDiv(card, playerDivs[currentPlayer]);
     pileDeckDiv.lastChild.remove();
     pileDeckDiv.lastChild.hidden = false;
@@ -146,7 +160,7 @@ function createDeck() {
 //create table Deck
 function createTableDeck() {
   const newDeck = createDeck();
-  const deck = new Deck(newDeck);
+  const deck = new TableDeck(newDeck);
   deck.shuffle();
   const shuffled = deck;
   return shuffled;
@@ -419,4 +433,28 @@ function removeMarkedFromPlayer(player, marked) {
     }
   }
   return playerDeck;
+}
+
+const testArray = [20, 45, 32, 20, 50, 68];
+const lowestArr = lowestScorePlayers(players);
+
+//who has the lowest score
+function lowestScorePlayers(players) {
+  const scores = [];
+  let playersIndex = [];
+  for (const player of players) {
+    scores.push(player.currentSum());
+  }
+  let highestScore = scores[0];
+  for (let i = 1; i < scores.length; i++) {
+    if (scores[i] < highestScore) {
+      highestScore = scores[i];
+    }
+  }
+  for (let i = 0; i < scores.length; i++) {
+    if (scores[i] === highestScore) {
+      playersIndex.push(i);
+    }
+  }
+  return playersIndex;
 }

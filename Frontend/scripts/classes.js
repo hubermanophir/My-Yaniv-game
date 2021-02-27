@@ -38,7 +38,7 @@ class PlayerDeck extends Deck {
 }
 
 class PileDeck extends Deck {
-  constructor(cards, numberOfCards) {
+  constructor(cards) {
     super();
     this.cards = cards;
   }
@@ -75,6 +75,6 @@ class Player {
         sum += Number(card.rank);
       }
     }
-    this.score = sum;
+    return sum;
   }
 }
