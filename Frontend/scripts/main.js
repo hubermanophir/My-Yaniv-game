@@ -213,7 +213,10 @@ function removeCardFromArray(array, card) {
 
 //check if array is at least 3 cards and consecutive
 function checkIfThreeConsecutive(array) {
-  const valuesArray = cardsArrayToNumber(array);
+  let valuesArray = cardsArrayToNumber(array);
+  valuesArray = valuesArray.filter(function (number) {
+    return number !== "joker";
+  });
   valuesArray.sort((a, b) => a - b);
   let bool = false;
   if (valuesArray.length >= 3) {
