@@ -213,11 +213,46 @@ function removeCardFromArray(array, card) {
 
 //check if array is at least 3 cards and consecutive
 function checkIfThreeConsecutive(array) {
-  if (array.length >= 3) {
-  } else {
-    return false;
+  const valuesArray = cardsArrayToNumber(array);
+  valuesArray.sort((a, b) => a - b);
+  let bool = false;
+  if (valuesArray.length >= 3) {
+    for (let i = 0; i < valuesArray.length - 1; i++) {
+      if (valuesArray[i] + 1 === valuesArray[i + 1]) {
+        bool = true;
+      } else {
+        bool = false;
+        break;
+      }
+    }
   }
+  return bool;
 }
+
+//change value from string to number
+function cardsArrayToNumber(array) {
+  const newArray = [];
+  for (const card of array) {
+    const char = card.id[card.id.length - 1];
+    if (char === "K") {
+      newArray.push(13);
+    } else if (char === "Q") {
+      newArray.push(12);
+    } else if (char === "J") {
+      newArray.push(11);
+    } else if (char === "A") {
+      newArray.push(1);
+    } else if (char === "d") {
+      newArray.push("joker");
+    } else if (char === "0") {
+      newArray.push(10);
+    } else {
+      newArray.push(Number(char));
+    }
+  }
+  return newArray;
+}
+
 //"spades", "diamonds", "clubs", "hearts"
 //check if same suit
 function sameSuit(array) {
