@@ -1,7 +1,8 @@
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
 const currentPlayerDiv = document.getElementById("current-player");
-const pileDeck = document.getElementById("pile-deck");
+const pileDeckDiv = document.getElementById("pile-deck");
+const tableDeckElement = document.getElementById("table-deck");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
 const player3Name = document.getElementById("name3");
@@ -16,9 +17,11 @@ const playerDivs = [player1, player2, player3, player4];
 const pileArray = [];
 let marked = [];
 let currentPlayer;
+let pileOrTableClicks = 0;
 
 let numberOfPlayers;
 const tableDeck = createTableDeck();
+const pileDeck = [];
 const players = [];
 
 //starting the game
@@ -27,7 +30,7 @@ start.addEventListener("click", () => {
   createPlayers();
   //creates pile deck
   pileArray.push(tableDeck.cards.pop());
-  createCardDiv(pileArray[0], pileDeck, "pile-card");
+  createCardDiv(pileArray[0], pileDeckDiv, "pile-card");
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
@@ -53,32 +56,60 @@ finishTurn.addEventListener("click", (e) => {
     console.log(player);
     marked[0].remove();
     const thrownCard = marked.pop();
-    const pileCard = pileDeck.lastChild;
+    const pileCard = pileDeckDiv.lastChild;
     pileCard.hidden = true;
     thrownCard.classList.remove("marked");
-    pileDeck.appendChild(thrownCard);
+    pileDeckDiv.appendChild(thrownCard);
+
+    nextPlayer();
+    pileArray.push(divToCard(thrownCard));
   } else if (checkSameRank(marked)) {
     const player = players[currentPlayer];
     player.playerDeck = removeMarkedFromPlayer(player, marked);
     console.log(player);
     while (marked.length !== 0) {
       const thrownCard = marked.pop();
-      const pileCard = pileDeck.lastChild;
+      const pileCard = pileDeckDiv.lastChild;
       pileCard.hidden = true;
       thrownCard.classList.remove("marked");
-      pileDeck.appendChild(thrownCard);
+      pileDeckDiv.appendChild(thrownCard);
     }
+
+    nextPlayer();
+    pileArray.push(divToCard(thrownCard));
   } else if (sameSuit(marked) && checkIfThreeConsecutive(array)) {
     const player = players[currentPlayer];
     player.playerDeck = removeMarkedFromPlayer(player, marked);
     console.log(player);
     while (marked.length !== 0) {
       const thrownCard = marked.pop();
-      const pileCard = pileDeck.lastChild;
+      const pileCard = pileDeckDiv.lastChild;
       pileCard.hidden = true;
       thrownCard.classList.remove("marked");
-      pileDeck.appendChild(thrownCard);
+      pileDeckDiv.appendChild(thrownCard);
     }
+
+    nextPlayer();
+    pileArray.push(divToCard(thrownCard));
+  }
+});
+
+//take card from table deck
+tableDeckElement.addEventListener("click", () => {
+  if (pileOrTableClicks === 0) {
+    const card = tableDeck.cards.pop();
+    createCardDiv(card, playerDivs[currentPlayer]);
+    pileOrTableClicks++;
+  }
+});
+
+//take card from pile deck
+pileDeckDiv.addEventListener("click", () => {
+  if (pileOrTableClicks === 0) {
+    const card = pileArray.pop();
+    createCardDiv(card, playerDivs[currentPlayer]);
+    pileDeckDiv.lastChild.remove();
+    pileOrTableClicks++;
   }
 });
 
@@ -157,6 +188,35 @@ function createCardDiv(card, parent, className) {
   parent.appendChild(img);
 }
 
+//converts div to card
+function divToCard(div) {
+  const { id } = div;
+  let rank = id[id.length - 1];
+  let suit;
+  let isJoker;
+  if (rank === 0) {
+    rank = 10;
+  } else if (rank === "d") {
+    rank = 0;
+    isJoker = true;
+    suit = null;
+  }
+  if (id.includes("spades")) {
+    suit = "spades";
+    isJoker = false;
+  } else if (id.includes("diamonds")) {
+    suit = "diamonds";
+    isJoker = false;
+  } else if (id.includes("clubs")) {
+    suit = "clubs";
+    isJoker = false;
+  } else if (id.includes("hearts")) {
+    suit = "hearts";
+    isJoker = false;
+  }
+  return new Card(suit, rank, isJoker);
+}
+
 //adding the cards to the corresponding player
 function setCardsToPlayers(players) {
   let counter = 0;
@@ -187,6 +247,22 @@ function firstPlayerDiv(players) {
   div.innerText = name + " starts!";
   currentPlayerDiv.appendChild(div);
   return playerNumber;
+}
+
+//makes the game move to the next player
+function nextPlayer() {
+  const playerAmount = players.length;
+  if (currentPlayer + 1 === playerAmount) {
+    currentPlayer = 0;
+  } else {
+    currentPlayer++;
+  }
+  const { name } = players[currentPlayer];
+  const div = document.createElement("div");
+  div.innerText = `${name}'s turn`;
+  currentPlayerDiv.firstChild.remove();
+  currentPlayerDiv.appendChild(div);
+  pileOrTableClicks = 0;
 }
 
 //add or removes class marked from element
@@ -223,14 +299,19 @@ function removeCardFromArray(array, card) {
 //check if array is at least 3 cards and consecutive
 function checkIfThreeConsecutive(array) {
   let valuesArray = cardsArrayToNumber(array);
+  let jokerInDeck = false;
   valuesArray = valuesArray.filter(function (number) {
+    jokerInDeck = true;
     return number !== "joker";
   });
   valuesArray.sort((a, b) => a - b);
   let bool = false;
   if (valuesArray.length >= 3) {
     for (let i = 0; i < valuesArray.length - 1; i++) {
-      if (valuesArray[i] + 1 === valuesArray[i + 1]) {
+      if (
+        valuesArray[i] + 1 === valuesArray[i + 1] ||
+        (valuesArray[i] + 2 === valuesArray[i + 1] && jokerInDeck)
+      ) {
         bool = true;
       } else {
         bool = false;
