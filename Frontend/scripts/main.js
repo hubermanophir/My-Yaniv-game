@@ -109,6 +109,7 @@ pileDeckDiv.addEventListener("click", () => {
     const card = pileArray.pop();
     createCardDiv(card, playerDivs[currentPlayer]);
     pileDeckDiv.lastChild.remove();
+    pileDeckDiv.lastChild.hidden = false;
     pileOrTableClicks++;
   }
 });
