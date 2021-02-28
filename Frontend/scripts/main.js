@@ -45,7 +45,20 @@ document.addEventListener("click", (e) => {
     playerNode.firstElementChild.innerText ===
     playerNames[currentPlayer].innerText
   ) {
-    AddOrRemoveMarkedClass(card);
+    // if (marked.length === 0) {
+    //   addOrRemoveMarkedClass(card);
+    // } else if (marked.length === 1) {
+    //   addOrRemoveMarkedClass(card);
+    //   if (!checkSameRank(marked) || !sameSuit(marked)) {
+    //     addOrRemoveMarkedClass(card);
+    //   }
+    // } else if (marked.length === 2) {
+    //   addOrRemoveMarkedClass(card);
+    //   if (!checkSameRank(marked) || !sameSuit(marked)) {
+    //     addOrRemoveMarkedClass(card);
+    //   }
+    // }
+    addOrRemoveMarkedClass(card);
   }
 });
 
@@ -133,11 +146,13 @@ tableDeckElement.addEventListener("click", () => {
 //take card from pile deck
 pileDeckDiv.addEventListener("click", () => {
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
-    const card = pileDeck.cards.pop();
+    const pileDeckLength = pileDeck.cards.length;
+    const card = pileDeck.cards[pileDeckLength - 2];
+    pileDeck.cards.splice(pileDeckLength - 2, 1);
     players[currentPlayer].playerDeck.cards.push(card);
     createCardDiv(card, playerDivs[currentPlayer]);
-    pileDeckDiv.lastChild.remove();
-    pileDeckDiv.lastChild.hidden = false;
+    const pileDeckChildren = pileDeckDiv.childNodes;
+    pileDeckChildren[pileDeckChildren.length - 2].remove();
     pileOrTableClicks++;
     cardTaken = true;
   }
@@ -297,7 +312,7 @@ function nextPlayer() {
 }
 
 //add or removes class marked from element
-function AddOrRemoveMarkedClass(element) {
+function addOrRemoveMarkedClass(element) {
   if (element.classList.contains("marked")) {
     element.classList.remove("marked");
     marked = removeCardFromArray(marked, element);
@@ -412,7 +427,7 @@ function checkSameRank(array) {
   const firstCard = array[0].id;
   const rank = firstCard[firstCard.length - 1];
   for (const card of array) {
-    if (card.id[card.id.length - 1] === rank) {
+    if (card.id[card.id.length - 1] === rank || rank === "d") {
       bool = true;
     } else {
       bool = false;
