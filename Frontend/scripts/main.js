@@ -35,7 +35,6 @@ start.addEventListener("click", () => {
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
-  console.log(players);
 });
 
 //listens only for the current player
@@ -66,7 +65,7 @@ yaniv.addEventListener("click", () => {
 throwCard.addEventListener("click", (e) => {
   if (marked.length === 1 && !didPlayerThrowCard) {
     const player = players[currentPlayer];
-    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    player.playerDeck.cards = removeMarkedFromPlayer(player, marked);
     console.log(player);
     marked[0].remove();
     const thrownCard = marked.pop();
@@ -78,7 +77,7 @@ throwCard.addEventListener("click", (e) => {
     didPlayerThrowCard = true;
   } else if (checkSameRank(marked) && !didPlayerThrowCard) {
     const player = players[currentPlayer];
-    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    player.playerDeck.cards = removeMarkedFromPlayer(player, marked);
     console.log(player);
     while (marked.length !== 0) {
       const thrownCard = marked.pop();
@@ -95,7 +94,7 @@ throwCard.addEventListener("click", (e) => {
     !didPlayerThrowCard
   ) {
     const player = players[currentPlayer];
-    player.playerDeck = removeMarkedFromPlayer(player, marked);
+    player.playerDeck.cards = removeMarkedFromPlayer(player, marked);
     console.log(player);
     while (marked.length !== 0) {
       const thrownCard = marked.pop();
@@ -124,6 +123,7 @@ tableDeckElement.addEventListener("click", () => {
   }
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
     const card = tableDeck.cards.pop();
+    players[currentPlayer].playerDeck.cards.push(card);
     createCardDiv(card, playerDivs[currentPlayer]);
     pileOrTableClicks++;
     cardTaken = true;
@@ -134,6 +134,7 @@ tableDeckElement.addEventListener("click", () => {
 pileDeckDiv.addEventListener("click", () => {
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
     const card = pileDeck.pop();
+    players[currentPlayer].playerDeck.cards.push(card);
     createCardDiv(card, playerDivs[currentPlayer]);
     pileDeckDiv.lastChild.remove();
     pileDeckDiv.lastChild.hidden = false;
@@ -166,6 +167,7 @@ function createTableDeck() {
   return shuffled;
 }
 
+//change------------------------------------------------------------------------------------------------------------------------
 //creates an array of players
 function createPlayers() {
   for (let i = 0; i < numberOfPlayers; i++) {
@@ -174,7 +176,8 @@ function createPlayers() {
       cards.push(tableDeck.cards.pop());
     }
     const name = prompt(`player ${i + 1} name`);
-    const player = new Player(name, cards);
+    const playerDeck = new PlayerDeck(cards);
+    const player = new Player(name, playerDeck);
     playerNames[i].innerText = name;
     players.push(player);
   }
@@ -250,7 +253,7 @@ function divToCard(div) {
 function setCardsToPlayers(players) {
   let counter = 0;
   for (const player of players) {
-    const cards = player.playerDeck;
+    const cards = player.playerDeck.cards;
     for (let i = 0; i < 5; i++) {
       createCardDiv(cards[i], playerDivs[counter]);
     }
@@ -418,10 +421,10 @@ function checkSameRank(array) {
   }
   return bool;
 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------
 //remove cards from player object and returns the new array
 function removeMarkedFromPlayer(player, marked) {
-  let { playerDeck } = player;
+  let playerDeck = player.playerDeck.cards;
   for (const card of marked) {
     for (let i = 0; i < playerDeck.length; i++) {
       if (card.id === `${playerDeck[i].suit}_${playerDeck[i].rank}`) {

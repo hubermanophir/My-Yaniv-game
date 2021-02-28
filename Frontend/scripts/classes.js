@@ -50,7 +50,7 @@ class Player {
   }
   currentSum() {
     let sum = 0;
-    for (const card of this.playerDeck) {
+    for (const card of this.playerDeck.cards) {
       if (
         card.rank === "K" ||
         card.rank === "Q" ||
