@@ -23,15 +23,15 @@ let cardTaken = false;
 let didPlayerThrowCard = false;
 let numberOfPlayers;
 const tableDeck = createTableDeck();
-const pileDeck = [];
+const pileDeck = new PileDeck([]);
 const players = [];
 
 //starting the game
 start.addEventListener("click", () => {
   numberOfPlayers = selection.value;
   createPlayers();
-  pileDeck.push(tableDeck.cards.pop());
-  createCardDiv(pileDeck[0], pileDeckDiv, "pile-card");
+  pileDeck.cards.push(tableDeck.cards.pop());
+  createCardDiv(pileDeck.cards[0], pileDeckDiv, "pile-card");
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
@@ -73,7 +73,7 @@ throwCard.addEventListener("click", (e) => {
     pileCard.hidden = true;
     thrownCard.classList.remove("marked");
     pileDeckDiv.appendChild(thrownCard);
-    pileDeck.push(divToCard(thrownCard));
+    pileDeck.cards.push(divToCard(thrownCard));
     didPlayerThrowCard = true;
   } else if (checkSameRank(marked) && !didPlayerThrowCard) {
     const player = players[currentPlayer];
@@ -85,9 +85,9 @@ throwCard.addEventListener("click", (e) => {
       pileCard.hidden = true;
       thrownCard.classList.remove("marked");
       pileDeckDiv.appendChild(thrownCard);
+      pileDeck.cards.push(divToCard(thrownCard));
     }
     didPlayerThrowCard = true;
-    pileDeck.push(divToCard(thrownCard));
   } else if (
     sameSuit(marked) &&
     checkIfThreeConsecutive(array) &&
@@ -103,7 +103,7 @@ throwCard.addEventListener("click", (e) => {
       thrownCard.classList.remove("marked");
       pileDeckDiv.appendChild(thrownCard);
     }
-    pileDeck.push(divToCard(thrownCard));
+    pileDeck.cards.push(divToCard(thrownCard));
     didPlayerThrowCard = true;
   }
 });
@@ -133,7 +133,7 @@ tableDeckElement.addEventListener("click", () => {
 //take card from pile deck
 pileDeckDiv.addEventListener("click", () => {
   if (pileOrTableClicks === 0 && didPlayerThrowCard) {
-    const card = pileDeck.pop();
+    const card = pileDeck.cards.pop();
     players[currentPlayer].playerDeck.cards.push(card);
     createCardDiv(card, playerDivs[currentPlayer]);
     pileDeckDiv.lastChild.remove();
@@ -143,7 +143,7 @@ pileDeckDiv.addEventListener("click", () => {
   }
 });
 
-//---------------------functions-----------------------------
+//---------------------------------------functions--------------------------------------------
 
 //creates a new deck
 function createDeck() {
@@ -167,7 +167,6 @@ function createTableDeck() {
   return shuffled;
 }
 
-//change------------------------------------------------------------------------------------------------------------------------
 //creates an array of players
 function createPlayers() {
   for (let i = 0; i < numberOfPlayers; i++) {
@@ -421,7 +420,7 @@ function checkSameRank(array) {
   }
   return bool;
 }
-//----------------------------------------------------------------------------------------------------------------------------------------
+
 //remove cards from player object and returns the new array
 function removeMarkedFromPlayer(player, marked) {
   let playerDeck = player.playerDeck.cards;
