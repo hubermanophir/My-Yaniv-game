@@ -1,3 +1,4 @@
+const main = document.querySelector("main");
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
 const currentPlayerDiv = document.getElementById("current-player");
@@ -35,6 +36,9 @@ start.addEventListener("click", () => {
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
+
+  ////////////////////////////////////////////////////////////////////////
+  roundVictory(players[0], main);
 });
 
 //listens only for the current player
@@ -60,9 +64,10 @@ yaniv.addEventListener("click", () => {
       lowestPlayerIndex.length === 1 &&
       lowestPlayerIndex[0] === currentPlayer
     ) {
-      console.log(`${players[currentPlayer].name} won this round`);
+      roundVictory(player, main);
+      console.log(`${players[currentPlayer].name} won this round!`);
     } else {
-      console.log(`${players[currentPlayer].name} got and assaf to the face`);
+      console.log(`${players[currentPlayer].name} got and assaf to the face!`);
     }
   }
 });
@@ -466,4 +471,17 @@ function lowestScorePlayers(players) {
     }
   }
   return playersIndex;
+}
+
+//creating a round victory div
+function roundVictory(player, parent) {
+  const div = document.createElement("div");
+  div.innerText = `${player.name} won the round!`;
+  div.setAttribute("id", "round-victory");
+  parent.appendChild(div);
+  const input = document.createElement("input");
+  input.setAttribute("type", "button");
+  input.setAttribute("value", "next round");
+  input.setAttribute("id", "next-round-button");
+  parent.appendChild(input);
 }
