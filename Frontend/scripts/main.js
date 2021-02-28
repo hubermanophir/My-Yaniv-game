@@ -45,19 +45,6 @@ document.addEventListener("click", (e) => {
     playerNode.firstElementChild.innerText ===
     playerNames[currentPlayer].innerText
   ) {
-    // if (marked.length === 0) {
-    //   addOrRemoveMarkedClass(card);
-    // } else if (marked.length === 1) {
-    //   addOrRemoveMarkedClass(card);
-    //   if (!checkSameRank(marked) || !sameSuit(marked)) {
-    //     addOrRemoveMarkedClass(card);
-    //   }
-    // } else if (marked.length === 2) {
-    //   addOrRemoveMarkedClass(card);
-    //   if (!checkSameRank(marked) || !sameSuit(marked)) {
-    //     addOrRemoveMarkedClass(card);
-    //   }
-    // }
     addOrRemoveMarkedClass(card);
   }
 });
@@ -68,8 +55,14 @@ yaniv.addEventListener("click", () => {
   const cardsSum = player.currentSum();
   if (cardsSum < 7) {
     const lowestPlayerIndex = lowestScorePlayers(players);
-    if (lowestPlayerIndex.length === 1) {
+    //if the current player won
+    if (
+      lowestPlayerIndex.length === 1 &&
+      lowestPlayerIndex[0] === currentPlayer
+    ) {
       console.log(`${players[currentPlayer].name} won this round`);
+    } else {
+      console.log(`${players[currentPlayer].name} got and assaf to the face`);
     }
   }
 });
@@ -427,7 +420,10 @@ function checkSameRank(array) {
   const firstCard = array[0].id;
   const rank = firstCard[firstCard.length - 1];
   for (const card of array) {
-    if (card.id[card.id.length - 1] === rank || rank === "d") {
+    if (
+      card.id[card.id.length - 1] === rank ||
+      card.id[card.id.length - 1] === "d"
+    ) {
       bool = true;
     } else {
       bool = false;
