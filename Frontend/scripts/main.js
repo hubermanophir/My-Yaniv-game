@@ -38,8 +38,8 @@ start.addEventListener("click", () => {
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
 
-  // let bool = false;
-  // roundVictory(players[0], main);
+  let bool = false;
+  roundVictory(players[0], main);
 });
 
 //listens only for the current player
@@ -74,10 +74,6 @@ yaniv.addEventListener("click", () => {
     }
   }
 });
-
-// nextRound.addEventListener("click", () => {
-
-// });
 
 //throw cards
 throwCard.addEventListener("click", (e) => {
@@ -123,6 +119,23 @@ throwCard.addEventListener("click", (e) => {
     }
     pileDeck.cards.push(divToCard(thrownCard));
     didPlayerThrowCard = true;
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "next-round") {
+    resetTableDeck();
+    for (let i = 0; i < players.length; i++) {
+      const cards = [];
+      for (let x = 0; x < 5; x++) {
+        cards.push(tableDeck.cards.pop());
+      }
+      const name = players[i].name;
+      const playerDeck = new PlayerDeck(cards);
+      const player = new Player(name, playerDeck);
+      playerNames[i].innerText = name;
+      players.push(player);
+    }
   }
 });
 
@@ -529,6 +542,8 @@ function roundVictory(player, parent, isYaniv = true) {
   const input = document.createElement("input");
   input.setAttribute("type", "button");
   input.setAttribute("value", "next round");
-  input.setAttribute("id", "next-round-button");
+  input.setAttribute("id", "next-round");
   parent.appendChild(input);
 }
+
+//reset players
