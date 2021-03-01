@@ -586,9 +586,13 @@ function resetPlayers(players) {
 
 function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
   for (let i = 0; i < players.length; i++) {
-    playerScores[i].playerScore =
-      players[i].currentSum() + playerScores[i].playerScore;
-    playerScores[i].playerName = players[i].name;
+    if (players[i].currentSum() + playerScores[i].playerScore === 200) {
+      playerScores[i].playerScore = 0;
+    } else {
+      playerScores[i].playerScore =
+        players[i].currentSum() + playerScores[i].playerScore;
+      playerScores[i].playerName = players[i].name;
+    }
   }
   if (isWinner) {
     playerScores[currentPlayer].playerScore =
@@ -603,3 +607,5 @@ function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
     return a.playerScore - b.playerScore;
   });
 }
+
+function scoresToDiv(playerScores) {}
