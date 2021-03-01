@@ -60,8 +60,11 @@ yaniv.addEventListener("click", () => {
       lowestPlayerIndex.length === 1 &&
       lowestPlayerIndex[0] === currentPlayer
     ) {
+      roundVictory(player, main);
       console.log(`${players[currentPlayer].name} won this round`);
     } else {
+      let bool = false;
+      roundVictory(player, main, bool);
       console.log(`${players[currentPlayer].name} got and assaf to the face`);
     }
   }
@@ -466,4 +469,20 @@ function lowestScorePlayers(players) {
     }
   }
   return playersIndex;
+}
+
+function roundVictory(player, parent, isYaniv = true) {
+  const div = document.createElement("div");
+  if (isYaniv) {
+    div.innerText = `${player.name} won the round!`;
+  } else {
+    div.innerText = `${player.name} got an assaf to the face!`;
+  }
+  div.setAttribute("id", "round-victory");
+  parent.appendChild(div);
+  const input = document.createElement("input");
+  input.setAttribute("type", "button");
+  input.setAttribute("value", "next round");
+  input.setAttribute("id", "next-round-button");
+  parent.appendChild(input);
 }
