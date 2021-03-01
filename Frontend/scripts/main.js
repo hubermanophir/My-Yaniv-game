@@ -479,18 +479,18 @@ function lowestScorePlayers(players) {
 }
 
 //creating a round victory div
-function roundVictory(player, parent, isYaniv = true) {
-  const div = document.createElement("div");
-  if (isYaniv) {
-    div.innerText = `${player.name} won the round!`;
-  } else {
-    div.innerText = `${player.name} got an assaf to the face!`;
-  }
-  div.setAttribute("id", "round-victory");
-  parent.appendChild(div);
-  const input = document.createElement("input");
-  input.setAttribute("type", "button");
-  input.setAttribute("value", "next round");
-  input.setAttribute("id", "next-round-button");
-  parent.appendChild(input);
-}
+// function roundVictory(player, parent, isYaniv = true) {
+//   const div = document.createElement("div");
+//   if (isYaniv) {
+//     div.innerText = `${player.name} won the round!`;
+//   } else {
+//     div.innerText = `${player.name} got an assaf to his face!`;
+//   }
+//   div.setAttribute("id", "round-victory");
+//   parent.appendChild(div);
+//   const input = document.createElement("input");
+//   input.setAttribute("type", "button");
+//   input.setAttribute("value", "next round");
+//   input.setAttribute("id", "next-round-button");
+//   parent.appendChild(input);
+// }
