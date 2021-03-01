@@ -137,19 +137,33 @@ throwCard.addEventListener("click", (e) => {
 
 //take card from table deck
 tableDeckElement.addEventListener("click", () => {
-  if (tableDeck) {
-  }
-  if (pileOrTableClicks === 0 && didPlayerThrowCard) {
-    const card = tableDeck.cards.pop();
-    players[currentPlayer].playerDeck.cards.push(card);
-    createCardDiv(card, playerDivs[currentPlayer]);
-    pileOrTableClicks++;
-    cardTaken = true;
-  }
-  if (cardTaken) {
-    didPlayerThrowCard = false;
-    nextPlayer();
-    cardTaken = false;
+  if (tableDeck.cards.length === 1) {
+    if (pileOrTableClicks === 0 && didPlayerThrowCard) {
+      const card = tableDeck.cards.pop();
+      players[currentPlayer].playerDeck.cards.push(card);
+      createCardDiv(card, playerDivs[currentPlayer]);
+      pileOrTableClicks++;
+      cardTaken = true;
+    }
+    if (cardTaken) {
+      didPlayerThrowCard = false;
+      nextPlayer();
+      cardTaken = false;
+    }
+    resetTableDeck();
+  } else {
+    if (pileOrTableClicks === 0 && didPlayerThrowCard) {
+      const card = tableDeck.cards.pop();
+      players[currentPlayer].playerDeck.cards.push(card);
+      createCardDiv(card, playerDivs[currentPlayer]);
+      pileOrTableClicks++;
+      cardTaken = true;
+    }
+    if (cardTaken) {
+      didPlayerThrowCard = false;
+      nextPlayer();
+      cardTaken = false;
+    }
   }
 });
 
@@ -255,8 +269,8 @@ function divToCard(div) {
   let rank = id[id.length - 1];
   let suit;
   let isJoker;
-  if (rank === 0) {
-    rank = 10;
+  if (rank === "0") {
+    rank = "10";
   } else if (rank === "d") {
     rank = 0;
     isJoker = true;
