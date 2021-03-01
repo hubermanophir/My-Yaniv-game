@@ -1,4 +1,5 @@
 const selection = document.getElementById("player-number");
+const main = document.querySelector("main");
 const start = document.getElementById("start");
 const currentPlayerDiv = document.getElementById("current-player");
 const pileDeckDiv = document.getElementById("pile-deck");
@@ -35,6 +36,9 @@ start.addEventListener("click", () => {
   setCardsToPlayers(players);
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
+
+  // let bool = false;
+  // roundVictory(players[0], main);
 });
 
 //listens only for the current player
@@ -117,14 +121,14 @@ throwCard.addEventListener("click", (e) => {
   }
 });
 
-//finish turn
-finishTurn.addEventListener("click", () => {
-  if (cardTaken) {
-    didPlayerThrowCard = false;
-    nextPlayer();
-    cardTaken = false;
-  }
-});
+// //finish turn
+// finishTurn.addEventListener("click", () => {
+//   if (cardTaken) {
+//     didPlayerThrowCard = false;
+//     nextPlayer();
+//     cardTaken = false;
+//   }
+// });
 
 //take card from table deck
 tableDeckElement.addEventListener("click", () => {
@@ -136,6 +140,11 @@ tableDeckElement.addEventListener("click", () => {
     createCardDiv(card, playerDivs[currentPlayer]);
     pileOrTableClicks++;
     cardTaken = true;
+  }
+  if (cardTaken) {
+    didPlayerThrowCard = false;
+    nextPlayer();
+    cardTaken = false;
   }
 });
 
@@ -151,6 +160,11 @@ pileDeckDiv.addEventListener("click", () => {
     pileDeckChildren[pileDeckChildren.length - 2].remove();
     pileOrTableClicks++;
     cardTaken = true;
+  }
+  if (cardTaken) {
+    didPlayerThrowCard = false;
+    nextPlayer();
+    cardTaken = false;
   }
 });
 
