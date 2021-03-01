@@ -7,6 +7,7 @@ const pileDeckDiv = document.getElementById("pile-deck");
 const tableDeckElement = document.getElementById("table-deck");
 const throwCard = document.getElementById("throw-card");
 const yaniv = document.getElementById("yaniv");
+const scores = document.getElementById("scores");
 const player1Name = document.getElementById("name1");
 const player2Name = document.getElementById("name2");
 const player3Name = document.getElementById("name3");
@@ -27,6 +28,12 @@ let numberOfPlayers;
 const tableDeck = createTableDeck();
 const pileDeck = new PileDeck([]);
 const players = [];
+let playerScores = [
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+];
 
 //starting the game
 start.addEventListener("click", () => {
@@ -124,30 +131,25 @@ throwCard.addEventListener("click", (e) => {
 
 document.addEventListener("click", (e) => {
   if (e.target.id === "next-round") {
+    const playerAmount = players.length;
     resetPlayers(players);
-    // resetTableDeck();
-    // for (let i = 0; i < players.length; i++) {
-    //   const cards = [];
-    //   for (let x = 0; x < 5; x++) {
-    //     cards.push(tableDeck.cards.pop());
-    //   }
-    //   const name = players[i].name;
-    //   const playerDeck = new PlayerDeck(cards);
-    //   const player = new Player(name, playerDeck);
-    //   playerNames[i].innerText = name;
-    //   players.push(player);
-    // }
+    resetTableDeck();
+    for (let i = 0; i < playerAmount; i++) {
+      const cards = [];
+      for (let x = 0; x < 5; x++) {
+        cards.push(tableDeck.cards.pop());
+      }
+      const name = playerNames[i].innerText;
+      const playerDeck = new PlayerDeck(cards);
+      const player = new Player(name, playerDeck);
+      // playerNames[i].innerText = name;
+      players.push(player);
+    }
+    setCardsToPlayers(players);
+    const victoryContainer = document.getElementById("victory-container");
+    victoryContainer.parentNode.removeChild(victoryContainer);
   }
 });
-
-// //finish turn
-// finishTurn.addEventListener("click", () => {
-//   if (cardTaken) {
-//     didPlayerThrowCard = false;
-//     nextPlayer();
-//     cardTaken = false;
-//   }
-// });
 
 //take card from table deck
 tableDeckElement.addEventListener("click", () => {
@@ -533,6 +535,8 @@ function resetTableDeck() {
 }
 
 function roundVictory(player, parent, isYaniv = true) {
+  const victoryDiv = document.createElement("div");
+  victoryDiv.setAttribute("id", "victory-container");
   const div = document.createElement("div");
   if (isYaniv) {
     div.innerText = `${player.name} won the round!`;
@@ -540,12 +544,13 @@ function roundVictory(player, parent, isYaniv = true) {
     div.innerText = `${player.name} got an assaf to the face!`;
   }
   div.setAttribute("id", "round-victory");
-  parent.appendChild(div);
+  victoryDiv.appendChild(div);
   const input = document.createElement("input");
   input.setAttribute("type", "button");
   input.setAttribute("value", "next round");
   input.setAttribute("id", "next-round");
-  parent.appendChild(input);
+  victoryDiv.appendChild(input);
+  parent.appendChild(victoryDiv);
 }
 
 //reset players
@@ -559,8 +564,24 @@ function resetPlayers(players) {
     players.pop();
   }
   for (const div of playerDivs) {
-    while (div.childNodes.length !== 0) {
+    while (div.childNodes.length > 2) {
       div.lastChild.remove();
     }
+  }
+}
+
+// returns an array of object with player names and scores descending
+
+function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
+  const scores = [{}];
+  for (let i = 0; i < players.length; i++) {
+    const wholePlayer = {};
+    wholePlayer.playerName = player[i].name;
+    wholePlayer.playerScore =
+      player[i].currentSum() + playerScores[i].playerScore;
+    scores.push(wholePlayer);
+  }
+  if (isWinner) {
+    scores[currentPlayer] = 0;
   }
 }
