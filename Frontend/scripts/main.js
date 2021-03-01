@@ -124,18 +124,19 @@ throwCard.addEventListener("click", (e) => {
 
 document.addEventListener("click", (e) => {
   if (e.target.id === "next-round") {
-    resetTableDeck();
-    for (let i = 0; i < players.length; i++) {
-      const cards = [];
-      for (let x = 0; x < 5; x++) {
-        cards.push(tableDeck.cards.pop());
-      }
-      const name = players[i].name;
-      const playerDeck = new PlayerDeck(cards);
-      const player = new Player(name, playerDeck);
-      playerNames[i].innerText = name;
-      players.push(player);
-    }
+    resetPlayers(players);
+    // resetTableDeck();
+    // for (let i = 0; i < players.length; i++) {
+    //   const cards = [];
+    //   for (let x = 0; x < 5; x++) {
+    //     cards.push(tableDeck.cards.pop());
+    //   }
+    //   const name = players[i].name;
+    //   const playerDeck = new PlayerDeck(cards);
+    //   const player = new Player(name, playerDeck);
+    //   playerNames[i].innerText = name;
+    //   players.push(player);
+    // }
   }
 });
 
@@ -520,12 +521,13 @@ function lowestScorePlayers(players) {
 
 //reset table Deck
 function resetTableDeck() {
-  while (pileDeck.cards.length !== 0) {
-    tableDeck.cards.push(pileDeck.cards.pop());
-  }
   while (pileDeckDiv.childNodes.length !== 0) {
     pileDeckDiv.lastChild.remove();
   }
+  while (pileDeck.cards.length !== 0) {
+    tableDeck.cards.push(pileDeck.cards.pop());
+  }
+  tableDeck.shuffle();
   pileDeck.cards.push(tableDeck.cards.pop());
   createCardDiv(pileDeck.cards[0], pileDeckDiv, "pile-card");
 }
@@ -547,3 +549,18 @@ function roundVictory(player, parent, isYaniv = true) {
 }
 
 //reset players
+function resetPlayers(players) {
+  for (const player of players) {
+    for (let i = 0; i < player.playerDeck.cards.length + 4; i++) {
+      tableDeck.cards.push(player.playerDeck.cards.pop());
+    }
+  }
+  while (players.length !== 0) {
+    players.pop();
+  }
+  for (const div of playerDivs) {
+    while (div.childNodes.length !== 0) {
+      div.lastChild.remove();
+    }
+  }
+}
