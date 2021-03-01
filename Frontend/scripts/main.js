@@ -39,7 +39,7 @@ start.addEventListener("click", () => {
   start.hidden = true;
 
   ////////////////////////////////////////////////////////////////////////
-  // roundVictory(players[0], main, bool);
+  roundVictory(players[0], main);
 });
 
 //listens only for the current player
@@ -68,8 +68,6 @@ yaniv.addEventListener("click", () => {
       roundVictory(player, main);
       console.log(`${players[currentPlayer].name} won this round!`);
     } else {
-      let bool = false;
-      roundVictory(player, main, bool);
       console.log(`${players[currentPlayer].name} got and assaf to the face!`);
     }
   }
@@ -479,13 +477,9 @@ function lowestScorePlayers(players) {
 }
 
 //creating a round victory div
-function roundVictory(player, parent, isYaniv = true) {
+function roundVictory(player, parent) {
   const div = document.createElement("div");
-  if (isYaniv) {
-    div.innerText = `${player.name} won the round!`;
-  } else {
-    div.innerText = `${player.name} got an assaf to the face!`;
-  }
+  div.innerText = `${player.name} won the round!`;
   div.setAttribute("id", "round-victory");
   parent.appendChild(div);
   const input = document.createElement("input");
