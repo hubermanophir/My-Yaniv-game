@@ -1,4 +1,5 @@
 const main = document.querySelector("main");
+const nextRoundButton = document.getElementById("next-round-button");
 const selection = document.getElementById("player-number");
 const start = document.getElementById("start");
 const currentPlayerDiv = document.getElementById("current-player");
@@ -71,6 +72,8 @@ yaniv.addEventListener("click", () => {
     }
   }
 });
+
+nextRoundButton.addEventListener("click", () => {});
 
 //throw cards
 throwCard.addEventListener("click", (e) => {
