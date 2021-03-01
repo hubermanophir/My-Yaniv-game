@@ -28,7 +28,12 @@ let numberOfPlayers;
 const tableDeck = createTableDeck();
 const pileDeck = new PileDeck([]);
 const players = [];
-let playerScores = [];
+let playerScores = [
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+  { playerName: "", playerScore: 0 },
+];
 
 //starting the game
 start.addEventListener("click", () => {
@@ -40,8 +45,12 @@ start.addEventListener("click", () => {
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
 
-  let bool = false;
-  roundVictory(players[0], main);
+  // let bool = false;
+  // roundVictory(players[0], main);
+  // playerScoresInOrder(players, playerScores, currentPlayer, true);
+  // playerScores = playerScores.filter((value) => {
+  //   return value.playerName !== "";
+  // });
 });
 
 //listens only for the current player
@@ -69,22 +78,18 @@ yaniv.addEventListener("click", () => {
     ) {
       roundVictory(player, main);
       console.log(`${players[currentPlayer].name} won this round`);
-      playerScores = playerScoresInOrder(
-        players,
-        playerScores,
-        currentPlayer,
-        true
-      );
+      playerScoresInOrder(players, playerScores, currentPlayer, true);
+      playerScores = playerScores.filter((value) => {
+        return value.playerName !== "";
+      });
     } else {
       let bool = false;
       roundVictory(player, main, bool);
       console.log(`${players[currentPlayer].name} got and assaf to the face`);
-      playerScores = playerScoresInOrder(
-        players,
-        playerScores,
-        currentPlayer,
-        false
-      );
+      playerScoresInOrder(players, playerScores, currentPlayer, false);
+      playerScores = playerScores.filter((value) => {
+        return value.playerName !== "";
+      });
     }
   }
 });
@@ -579,4 +584,22 @@ function resetPlayers(players) {
 
 // returns an array of object with player names and scores descending
 
-function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {}
+function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
+  for (let i = 0; i < players.length; i++) {
+    playerScores[i].playerScore =
+      players[i].currentSum() + playerScores[i].playerScore;
+    playerScores[i].playerName = players[i].name;
+  }
+  if (isWinner) {
+    playerScores[currentPlayer].playerScore =
+      playerScores[currentPlayer].playerScore -
+      players[currentPlayer].currentSum();
+  } else if (!isWinner) {
+    playerScores[currentPlayer].playerScore =
+      playerScores[currentPlayer].playerScore + 30;
+  }
+
+  playerScores.sort(function (a, b) {
+    return a.playerScore - b.playerScore;
+  });
+}
