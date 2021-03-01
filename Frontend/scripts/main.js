@@ -1,6 +1,7 @@
 const selection = document.getElementById("player-number");
 const main = document.querySelector("main");
 const start = document.getElementById("start");
+const nextRound = document.getElementById("next-round-button");
 const currentPlayerDiv = document.getElementById("current-player");
 const pileDeckDiv = document.getElementById("pile-deck");
 const tableDeckElement = document.getElementById("table-deck");
@@ -73,6 +74,10 @@ yaniv.addEventListener("click", () => {
     }
   }
 });
+
+// nextRound.addEventListener("click", () => {
+
+// });
 
 //throw cards
 throwCard.addEventListener("click", (e) => {
@@ -439,7 +444,8 @@ function checkSameRank(array) {
   for (const card of array) {
     if (
       card.id[card.id.length - 1] === rank ||
-      card.id[card.id.length - 1] === "d"
+      card.id[card.id.length - 1] === "d" ||
+      rank === "d"
     ) {
       bool = true;
     } else {
@@ -483,6 +489,18 @@ function lowestScorePlayers(players) {
     }
   }
   return playersIndex;
+}
+
+//reset table Deck
+function resetTableDeck() {
+  while (pileDeck.cards.length !== 0) {
+    tableDeck.cards.push(pileDeck.cards.pop());
+  }
+  while (pileDeckDiv.childNodes.length !== 0) {
+    pileDeckDiv.lastChild.remove();
+  }
+  pileDeck.cards.push(tableDeck.cards.pop());
+  createCardDiv(pileDeck.cards[0], pileDeckDiv, "pile-card");
 }
 
 function roundVictory(player, parent, isYaniv = true) {
