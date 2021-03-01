@@ -132,22 +132,6 @@ main {
   font-size: 4em;
   background-color: white;
   padding: 20px;
-  text-align: center;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
-}
-#next-round-button {
-  position: fixed;
-  top: 80%;
-  left: 50%;
-  border: solid 1px black;
-  border-radius: 5px;
-  font-size: 2em;
-  background-color: white;
-  padding: 20px;
-  /* bring your own prefixes */
-  transform: translate(-50%, -50%);
-  &hover {
-    cursor: pointer;
-  }
 }
