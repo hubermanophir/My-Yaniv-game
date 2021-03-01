@@ -45,12 +45,14 @@ start.addEventListener("click", () => {
   currentPlayer = firstPlayerDiv(players);
   start.hidden = true;
 
-  // let bool = false;
-  // roundVictory(players[0], main);
-  // playerScoresInOrder(players, playerScores, currentPlayer, true);
-  // playerScores = playerScores.filter((value) => {
-  //   return value.playerName !== "";
-  // });
+  let bool = false;
+  roundVictory(players[0], main);
+  playerScoresInOrder(players, playerScores, currentPlayer, true);
+  playerScores = playerScores.filter((value) => {
+    return value.playerName !== "";
+  });
+  // removeScores();
+  scoresToDiv(playerScores);
 });
 
 //listens only for the current player
@@ -82,6 +84,8 @@ yaniv.addEventListener("click", () => {
       playerScores = playerScores.filter((value) => {
         return value.playerName !== "";
       });
+      removeScores();
+      scoresToDiv(playerScores);
     } else {
       let bool = false;
       roundVictory(player, main, bool);
@@ -90,6 +94,8 @@ yaniv.addEventListener("click", () => {
       playerScores = playerScores.filter((value) => {
         return value.playerName !== "";
       });
+      removeScores();
+      scoresToDiv(playerScores);
     }
   }
 });
@@ -330,16 +336,6 @@ function setCardsToPlayers(players) {
     }
     counter++;
   }
-}
-
-//calculates the sum of each player and returns an array of sums
-function playerScoreArr(players) {
-  const sumArr = [];
-  for (const player of players) {
-    player.currentSum();
-    sumArr.push(player.score);
-  }
-  return sumArr;
 }
 
 //creates a div that says who is the first player
@@ -608,4 +604,31 @@ function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
   });
 }
 
-function scoresToDiv(playerScores) {}
+function scoresToDiv(playerScores) {
+  function removeScores() {
+    const children = scores.childNodes;
+    for (const child of children) {
+      child.remove();
+    }
+  }
+  for (const player of playerScores) {
+    const playerDiv = document.createElement("div");
+    playerDiv.setAttribute("class", "player-score-container");
+    const playerName = document.createElement("div");
+    playerName.setAttribute("class", "player-score-name");
+    const playerScore = document.createElement("div");
+    playerScore.setAttribute("class", "player-score");
+    playerName.innerText = player.playerName;
+    playerScore.innerText = player.playerScore;
+    playerDiv.appendChild(playerName);
+    playerDiv.appendChild(playerScore);
+    scores.appendChild(playerDiv);
+  }
+}
+
+function removeScores() {
+  const children = scores.childNodes;
+  for (let i = 0; i <= children.length; i++) {
+    scores.lastChild.remove();
+  }
+}
