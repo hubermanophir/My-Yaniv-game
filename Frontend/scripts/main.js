@@ -163,9 +163,9 @@ document.addEventListener("click", (e) => {
       // playerNames[i].innerText = name;
       players.push(player);
     }
-    setCardsToPlayers(players);
     const victoryContainer = document.getElementById("victory-container");
     victoryContainer.parentNode.removeChild(victoryContainer);
+    setCardsToPlayers(players);
   }
 });
 
