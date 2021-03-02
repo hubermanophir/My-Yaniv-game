@@ -582,6 +582,9 @@ function resetPlayers(players) {
 
 function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
   for (let i = 0; i < players.length; i++) {
+    if (players[i].currentSum() + playerScores[i].playerScore > 200) {
+      players.splice(i, 1);
+    }
     if (players[i].currentSum() + playerScores[i].playerScore === 200) {
       playerScores[i].playerScore = 0;
     } else {
@@ -605,12 +608,6 @@ function playerScoresInOrder(players, playerScores, currentPlayer, isWinner) {
 }
 
 function scoresToDiv(playerScores) {
-  function removeScores() {
-    const children = scores.childNodes;
-    for (const child of children) {
-      child.remove();
-    }
-  }
   for (const player of playerScores) {
     const playerDiv = document.createElement("div");
     playerDiv.setAttribute("class", "player-score-container");
