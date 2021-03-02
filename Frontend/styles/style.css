@@ -111,6 +111,8 @@ main {
   grid-area: 1 / 4 / 4 / 10;
   right: 30px;
   top: 40px;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
 }
 
 #player4 {
